@@ -1,0 +1,1307 @@
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, #ffe6f0, #fca6c3);
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+header {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+}
+
+#paDisplay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #d13f8c;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  height: 34px;
+}
+
+#menuToggle {
+  font-size: 28px;
+  background: transparent;
+  border: none;
+  color: #d13f8c;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+#menuToggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  background: white;
+  border: 1.5px solid #d13f8c;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  z-index: 30;
+  padding: 6px;
+  min-width: 160px;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  text-align: left;
+  color: #d13f8c;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-menu button:hover {
+  background: #ffe0eb;
+}
+
+.dropdown-menu button:not(:last-child) {
+  border-bottom: 1px solid #f3cadd;
+}
+
+
+main {
+  padding-top: 60px;
+  position: relative;
+}
+
+h1 {
+  margin-bottom: 8px;
+  color: #d13f8c;
+  font-size: 28px;
+  text-align: center;
+  /* ⬅ Centraliza o texto */
+  width: 100%;
+  /* ⬅ Ocupa toda a largura */
+}
+
+
+.instructions {
+  font-size: 15px;
+  color: #777;
+  margin-bottom: 20px;
+  text-align: center;
+  /* ⬅ Adicionado */
+  width: 100%;
+  /* ⬅ Adicionado */
+}
+
+
+.pack-container {
+  position: relative;
+  width: 240px;
+  height: 380px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.pack-top,
+.pack-body {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transition: transform 1s ease, opacity 0.5s ease;
+}
+
+.pack-top {
+  top: 0;
+  z-index: 2;
+}
+
+.pack-body {
+  top: 28px;
+  z-index: 1;
+}
+
+.pack-open .pack-top {
+  transform: translateY(-500px);
+  opacity: 0;
+}
+
+.pack-open .pack-body {
+  transform: translateY(500px);
+  opacity: 0;
+}
+
+#cardReveal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  height: 380px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+  margin-top: 90px;
+}
+
+#cardReveal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffb7d1;
+  cursor: pointer;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.card.dismissed {
+  transform: translateY(-500px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gallery {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 240, 245, 0.97);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px 40px;
+  z-index: 10;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.gallery.hidden {
+  display: none;
+}
+
+#galleryCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 300px;
+  /* cada carta ~90px + espaçamento = ~100px * 3 */
+  margin: 20px auto 0;
+  padding: 0 12px;
+}
+
+
+.gallery-card-container {
+  position: relative;
+  /* ESSENCIAL para o badge se posicionar dentro da carta */
+  display: inline-block;
+  margin: 4px;
+}
+
+.gallery-card-container img {
+  width: 90px;
+  height: 130px;
+  border-radius: 10px;
+  border: 2px solid #d13f8c;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.card-count {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: #d13f8c;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+
+#closeGallery {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  color: #d13f8c;
+  font-size: 28px;
+  border: none;
+  cursor: pointer;
+  z-index: 11;
+}
+
+#cardModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#cardModal.hidden {
+  display: none;
+}
+
+.modal-content img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+#dailyTimer {
+  font-size: 16px;
+  color: #d13f8c;
+  font-weight: bold;
+  margin: 12px 0;
+  padding: 6px 12px;
+  background-color: #fff0f5;
+  border: 2px solid #d13f8c;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#couponModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  /* 👈 Aqui adiciona espaço em volta do modal */
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+#couponModal.hidden {
+  display: none;
+}
+
+#couponModal .modal-content {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+#couponModal .modal-content h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+#couponInput {
+  padding: 12px;
+  border: 2px solid #d13f8c;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#submitCoupon {
+  background: #d13f8c;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#submitCoupon:hover {
+  background: #b92c70;
+}
+
+#couponMessage {
+  font-weight: bold;
+}
+
+#buyModal,
+#tradeModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+#buyModal.hidden,
+#tradeModal.hidden {
+  display: none;
+}
+
+#buyModal .modal-content,
+#tradeModal .modal-content {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+#buyModal .modal-content button,
+#tradeModal .modal-content button,
+#cardModal .modal-content button {
+  background: #d13f8c;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#buyModal .modal-content button:hover,
+#tradeModal .modal-content button:hover,
+#cardModal .modal-content button:hover {
+  background: #b92c70;
+}
+
+#tradeModal input[type="number"] {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 2px solid #d13f8c;
+  text-align: center;
+}
+
+#cardModal .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#cardModal .modal-content button {
+  margin-top: 12px;
+  width: auto;
+  align-self: center;
+}
+
+/* Remover contorno de foco ao clicar no pacote */
+#packContainer:focus {
+  outline: none;
+}
+
+/* Também para prevenir highlight no clique */
+#packContainer {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remover bordas das cartas */
+.card,
+.gallery-card-container img {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Versão no canto inferior direito */
+#versionLabel {
+  position: fixed;
+  bottom: 10px;
+  right: 12px;
+  font-size: 14px;
+  color: #d13f8c;
+  font-weight: bold;
+  opacity: 0.7;
+  z-index: 1000;
+}
+
+#rouletteModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+#rouletteModal.hidden {
+  display: none;
+}
+
+#rouletteModal .modal-content {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.roulette-wrapper {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 16px;
+
+}
+
+#rouletteImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Garante que a imagem cobre completamente o contêiner */
+  border-radius: 50%;
+  /* Persiste o formato circular */
+  transition: transform 4s ease-out;
+  transform: rotate(-30deg);
+}
+
+.roulette-arrow {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: #d13f8c;
+  z-index: 2;
+}
+
+
+
+#rouletteWheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid #d13f8c;
+  overflow: hidden;
+  transform: rotate(0deg);
+  transition: transform 4s ease-out;
+}
+
+.roulette-slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 0%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+}
+
+#spinRoulette {
+  background: #d13f8c;
+  color: rgb(255, 255, 255);
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#spinRoulette:hover {
+  background: #b92c70;
+}
+
+.pack-container.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(100%);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+#upgradeModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+#upgradeModal.hidden {
+  display: none;
+}
+
+#upgradeModal .modal-content {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+#upgradeModal .modal-content button {
+  background: #d13f8c;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#upgradeModal .modal-content button:hover {
+  background: #b92c70;
+}
+
+#choiceModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+#choiceModal.hidden {
+  display: none;
+}
+
+#choiceModal .modal-content {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+#choiceModal .modal-content button {
+  background: #d13f8c;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#choiceModal .modal-content button:hover {
+  background: #b92c70;
+}
+
+.disabled-btn {
+  background-color: #ccc !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  box-shadow: none !important;
+}
+
+/* 💖 Nivel 1: Rosa brilhante */
+.border-blue {
+  border: 3px solid #ff69b4;
+  border-radius: 12px;
+  animation: glow-card 2.5s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🟡 Nivel 2: Dourado com brilhos */
+.border-gold {
+  border: 3px solid gold;
+  border-radius: 12px;
+  animation: glow-card 2.5s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brilhos animados - fundo menor e mais sutis */
+.fancy-glow::before,
+.fancy-glow::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 12px;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 4px 4px;
+  /* Tamanho reduzido */
+  animation: sparkle 1.5s infinite alternate;
+  mix-blend-mode: screen;
+}
+
+.fancy-glow::after {
+  animation-delay: 0.75s;
+}
+
+/* 🌀 Movimento e brilho base */
+@keyframes sparkle {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 2px 2px;
+  }
+}
+
+@keyframes glow-card {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.9);
+    transform: scale(1.015);
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    transform: scale(1);
+  }
+}
+
+/* 🎴 Foil padrão */
+.foil-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.foil-wrapper img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  z-index: 1;
+  position: relative;
+}
+
+.foil-overlay {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 250%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0) 80%);
+  animation: foil-glint 3s infinite;
+  pointer-events: none;
+  z-index: 4;
+  /* Garante que esteja visível acima da carta */
+  mix-blend-mode: screen;
+}
+
+@keyframes foil-glint {
+  0% {
+    left: -150%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* Filtro dourado suave sobre a imagem */
+.fancy-glow img {
+  filter: none;
+}
+
+#ppDisplay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #d13f8c;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  height: 34px;
+}
+
+.shop-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  row-gap: 28px;
+
+  padding: 16px;
+}
+
+.shop-item {
+  width: 100px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.shop-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.shop-item .not-owned {
+  width: 100%;
+  height: 130px;
+  background: #444;
+  border-radius: 10px;
+}
+
+.price-tag {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.shop-item[data-owned="0"] {
+  cursor: default;
+}
+
+#shop #shopGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 20px;
+}
+
+#shop .gallery-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+  margin: 4px;
+}
+
+#shop .gallery-card-container img {
+  width: 90px;
+  height: 130px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #d13f8c;
+}
+
+#shop .card-count {
+  font-size: 12px;
+  background-color: #d13f8c;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 6px;
+  text-align: center;
+  width: 80px;
+}
+
+
+
+#shop .not-owned {
+  width: 90px;
+  height: 130px;
+  background: #444;
+  border-radius: 10px;
+  cursor: default;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content .btn {
+  background-color: #d13f8c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-content .btn:hover {
+  background-color: #a72f6c;
+}
+
+#shopGrid {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shop-row {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.shop-item .card-count {
+  margin-bottom: 8px;
+}
+
+.shop-item .card-count {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+#shopGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gallery-card-container {
+  position: relative;
+  display: inline-block;
+  margin: 4px;
+  width: 90px;
+}
+
+#cardModal .modal-content {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+#shop .gallery-card-container,
+#shop .gallery-card-container img,
+#shop .card-count {
+  all: unset;
+  display: flex !important;
+}
+
+#shop .gallery-card-container {
+  position: relative !important;
+  width: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 0 6px 24px !important;
+  /* Espaço entre as cartas */
+}
+
+#shop .gallery-card-container img {
+  width: 90px !important;
+  height: 130px !important;
+  border-radius: 10px !important;
+  object-fit: cover !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+#shopGrid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 20px 0px !important;
+  padding: 20px 0px !important;
+  max-width: 340px;
+  /* ~3 cartas por linha */
+  margin: 0 auto;
+}
+
+#shop .card-count {
+  font-size: 11px !important;
+  background-color: #d13f8c !important;
+  color: white !important;
+  padding: 2px 6px !important;
+  border-radius: 999px !important;
+  margin-top: 6px !important;
+  text-align: center !important;
+  width: fit-content !important;
+}
+
+/* Container principal da galeria (assumindo que tenha classe .gallery) */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 16px;
+}
+
+/* Títulos das seções de raridade (ex: Comum, Épica) */
+.gallery h3 {
+  width: 100%;
+  text-align: center;
+  margin: 24px 0 8px;
+  font-weight: bold;
+  width: 100% !important;
+}
+
+/* Linha de cartas de cada raridade */
+.gallery .rarity-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+#gallery h2 {
+  margin-top: 70px;
+  /* afasta do topo para não ficar atrás dos PA/PP */
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.upgrade-badge {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  z-index: 2;
+}
+
+.upgrade-badge::before,
+.upgrade-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+/* Fundo escuro (maior) */
+.upgrade-badge.level-1::before {
+  background-color: #e71180;
+  /* Rosa escuro */
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.upgrade-badge.level-2::before {
+  background-color: #fd7a00;
+  /* Dourado escuro */
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%,
+      68% 57%, 79% 91%,
+      50% 70%, 21% 91%,
+      32% 57%, 2% 35%, 39% 35%);
+}
+
+/* Frente clara (menor e centralizada) */
+.upgrade-badge.level-1::after {
+  width: 11px;
+  height: 11px;
+  background-color: #ff74c5;
+  /* Rosa claro */
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.upgrade-badge.level-2::after {
+  width: 11px;
+  height: 11px;
+  background-color: #ffd700;
+  /* Amarelo dourado claro */
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%,
+      68% 57%, 79% 91%,
+      50% 70%, 21% 91%,
+      32% 57%, 2% 35%, 39% 35%);
+}
+
+.upgrade-badge.level-3::before {
+  width: 22px;
+  height: 22px;
+  background-color: rgb(255, 141, 240);
+  clip-path: polygon(50% 0,
+      44% 37%,
+      17% 19%,
+      37% 46%,
+      0 50%,
+      36% 58%,
+      18% 88%,
+      44% 67%,
+      50% 100%,
+      57% 68%,
+      88% 89%,
+      67% 58%,
+      100% 50%,
+      66% 44%,
+      84% 17%,
+      57% 37%);
+}
+
+.upgrade-badge.level-3::after {
+  width: 17px;
+  height: 17px;
+  margin-left: 2.6px;
+  background-color: gold;
+  clip-path: polygon(50% 10%,
+      46% 40%,
+      22% 25%,
+      39% 48%,
+      10% 50%,
+      39% 55%,
+      22% 80%,
+      46% 65%,
+      50% 90%,
+      54% 65%,
+      78% 80%,
+      61% 55%,
+      90% 50%,
+      61% 48%,
+      78% 25%,
+      54% 40%);
+
+
+}
+
+
+
+.cbtn {
+  font-size: 10px;
+  max-width: 70px;
+  background-color: #d13f8c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#achievementList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 20px;
+  padding: 0 16px;
+}
+
+.achievement-entry {
+  background: #fd81c3;
+  border: 2px solid #d13f8c;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s ease;
+}
+
+.achievement-entry:hover {
+  transform: scale(1.02);
+}
+
+.achievement-entry h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #d13f8c;
+  font-weight: bold;
+}
+
+.achievement-entry p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.achievement-entry .status {
+  align-self: flex-end;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.achievement-entry .status.progress {
+  background-color: #fff0f5;
+  color: #d13f8c;
+  border: 1px solid #d13f8c;
+}
+
+.achievement-entry .status.completed {
+  background-color: #ccc;
+  color: white;
+  border: 1px solid #aaa;
+}
+
+/* 🌟 Nível 3 de melhoria */
+.foil-wrapper.level-3::before,
+.foil-wrapper.level-3::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.foil-wrapper.level-3::before {
+  background-image: url('./assets/brilho.gif');
+  mix-blend-mode: screen;
+  left: -50px;
+}
+
+#butterflyOverlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/borboletas.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  pointer-events: none;
+  z-index: 9999;
+  animation: float-butterflies-screen 12s linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes float-butterflies-screen {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+

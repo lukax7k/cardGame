@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cartas de Amor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header></header>
+
+  <main>
+    <h1>Cartas de Amor</h1>
+    <div class="instructions">Clique no pacote para revelar 5 cartas</div>
+
+    <div id="dailyTimer" class="hidden"></div>
+
+    <div class="pack-container" id="packContainer">
+      <img src="./assets/PacoteTopo.png" class="pack-top" id="packTop" alt="Pacote Topo" />
+      <img src="./assets/PacoteCorpo.png" class="pack-body" id="packBody" alt="Pacote Corpo" />
+    </div>
+
+    <div id="cardReveal" class="hidden"></div>
+  </main>
+
+  <div id="gallery" class="gallery hidden">
+    <h2>Cartas Coletadas</h2>
+    <div id="galleryCards"></div>
+    <button id="closeGallery" aria-label="Voltar">←</button>
+  </div>
+
+  <!-- Áudios -->
+  <audio id="backgroundMusic" src="./assets/audio/tema.mp3" loop muted autoplay></audio>
+  <audio id="openSound" src="./assets/audio/abrir.mp3"></audio>
+  <audio id="clickSound" src="./assets/audio/click.mp3"></audio>
+  <audio id="spinSound" src="./assets/audio/spin.mp3"></audio>
+
+  
+
+  <script src="cards.js"></script>
+  <script src="achievements.js"></script>
+  <script src="dropdownmenu.js"></script>
+  <script src="script.js"></script>
+  
+
+
+  <div id="versionLabel">v1.3.1</div>
+
+</body>
+</html>
